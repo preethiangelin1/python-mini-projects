@@ -1,14 +1,52 @@
 question_data = [
-    {"text": "A slug's blood is green.", "answer": "True"},
-    {"text": "The loudest animal is the African Elephant.", "answer": "False"},
-    {"text": "Approximately one quarter of human bones are in the feet.", "answer": "True"},
-    {"text": "The total surface area of a human lungs is the size of a football pitch.", "answer": "True"},
-    {"text": "In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.", "answer": "True"},
-    {"text": "In London, UK, if you happen to die in the House of Parliament, you are entitled to a state funeral.", "answer": "False"},
-    {"text": "It is illegal to pee in the Ocean in Portugal.", "answer": "True"},
-    {"text": "You can lead a cow down stairs but not up stairs.", "answer": "False"},
-    {"text": "Google was originally called 'Backrub'.", "answer": "True"},
-    {"text": "Buzz Aldrin's mother's maiden name was 'Moon'.", "answer": "True"},
-    {"text": "No piece of square dry paper can be folded in half more than 7 times.", "answer": "False"},
-    {"text": "A few ounces of chocolate can to kill a small dog.", "answer": "True"}
+    {
+        "text": "Which keyword is used to define a function in Python?",
+        "options": ["a) func", "b) define", "c) def", "d) function"],
+        "answer": "c"
+    },
+    {
+        "text": "Which data type is immutable in Python?",
+        "options": ["a) List", "b) Dictionary", "c) Set", "d) Tuple"],
+        "answer": "d"
+    },
+    {
+        "text": "What does the len() function return?",
+        "options": ["a) Type of object", "b) Number of elements", "c) Memory size", "d) Index value"],
+        "answer": "b"
+    },
+    {
+        "text": "Which symbol is used for comments in Python?",
+        "options": ["a) //", "b) <!-- -->", "c) #", "d) /* */"],
+        "answer": "c"
+    },
+    {
+        "text": "Which loop is best when the number of iterations is known?",
+        "options": ["a) while", "b) do-while", "c) for", "d) infinite"],
+        "answer": "c"
+    },
+    {
+        "text": "What is the output of: type(5)?",
+        "options": ["a) int", "b) <class 'int'>", "c) integer", "d) number"],
+        "answer": "b"
+    },
+    {
+        "text": "Which operator is used for exponentiation in Python?",
+        "options": ["a) ^", "b) **", "c) //", "d) %"],
+        "answer": "b"
+    },
+    {
+        "text": "Which collection does not allow duplicate values?",
+        "options": ["a) List", "b) Tuple", "c) Dictionary", "d) Set"],
+        "answer": "d"
+    },
+    {
+        "text": "Which keyword is used to handle exceptions in Python?",
+        "options": ["a) catch", "b) error", "c) try", "d) handle"],
+        "answer": "c"
+    },
+    {
+        "text": "Which function is used to get user input in Python?",
+        "options": ["a) get()", "b) input()", "c) read()", "d) scan()"],
+        "answer": "b"
+    }
 ]
