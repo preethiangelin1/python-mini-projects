@@ -1,0 +1,18 @@
+[project]
+name = "github_trending"
+version = "0.1.0"
+description = "A simple CLI to view github trending repos retrived using GitHub API"
+authors = [
+    { name="Preethi Angelin" }
+]
+dependencies = [
+    "rich>=14.0.0",
+    "requests>=2.32.5"
+]
+
+[project.scripts]
+github-trending = "github_trending.cli:run"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
