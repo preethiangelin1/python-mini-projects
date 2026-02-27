@@ -1,0 +1,18 @@
+[project]
+name = "tmdb_cli"
+version = "0.1.0"
+description = "A simple CLI to fetch movies from TMDB API"
+authors = [
+    { name="Preethi Angelin" }
+]
+dependencies = [
+    "rich>=14.0.0",
+    "requests>=2.32.5"
+]
+
+[project.scripts]
+tmdb_cli = "tmdb_cli.cli:run"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
