@@ -1,5 +1,6 @@
 import argparse
 from .api import fetch_movies
+from .utils import print_movies
 
 def run():
     parser = argparse.ArgumentParser(prog="tmdb_cli")
@@ -7,6 +8,8 @@ def run():
 
     args = parser.parse_args()
 
-    fetch_movies(args.type)
+    movies = fetch_movies(args.type)
+
+    print_movies(movies)
 
    

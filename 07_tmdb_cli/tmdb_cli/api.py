@@ -1,7 +1,6 @@
 import requests
 import os
 from dotenv import load_dotenv
-from .utils import print_movies
 
 load_dotenv()
 
@@ -25,7 +24,7 @@ def fetch_movies(type):
     try:
         response = requests.get(url, headers=headers)
         movies_data = response.json()
-        print_movies(movies_data.get("results"))
+        return movies_data.get("results")
 
     except requests.exceptions.HTTPError as e:
         print(f"🌐 HTTP error occurred: {e}")
