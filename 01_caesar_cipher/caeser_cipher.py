@@ -1,17 +1,21 @@
+def encrypt(text, shift):
+    encoded = ""
+    if shift < 0:
+        return text
+    for ch in text.lower():
+        encoded += chr(ord(ch) + shift)
+    return encoded
+    
+def decrypt(text, shift):
+    decoded = ""
+    if shift < 0:
+        return text
+    for ch in text.lower():
+        decoded += chr(ord(ch) - shift)
+    return decoded
+
 def main():
     print("Caeser Cipher!!")
-
-    def encrypt(text, shift):
-        encoded = ""
-        for ch in text.lower():
-            encoded += chr(ord(ch) + shift)
-        return f"Here,s the encoded result: {encoded}"
-
-    def decrypt(text, shift):
-        decoded = ""
-        for ch in text.lower():
-            decoded += chr(ord(ch) - shift)
-        return f"Here,s the decoded result: {decoded}"
 
     continue_game = True
     while continue_game:
@@ -20,10 +24,12 @@ def main():
         shift = int(input("How many shifts?:\n"))
 
         if direction == 'encode':
-            print(encrypt(text,shift))
+            encrypted_text = encrypt(text,shift)
+            print(f"Here,s the encoded result: {encrypted_text}")
 
         elif direction == "decode":
-            print(decrypt(text,shift))
+            decrypted_text = decrypt(text,shift)
+            print(f"Here,s the decoded result: {decrypted_text}")
 
         restart = input("Type 'yes' if you want to go again. Otherwise type 'no'.\n ").lower()
         
