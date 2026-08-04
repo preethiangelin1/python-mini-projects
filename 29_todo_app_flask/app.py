@@ -29,11 +29,21 @@ def create_todo():
 
     return jsonify(new_todo), 201
 
-@app.route("/todos/<id>")
+@app.route("/todos/<int:id>", methods=["DELETE"])
+def delete_todo(id):
+    for todo in todos:
+        if todo["id"] == id:
+            todos.remove(todo)
+            return jsonify({"message": "Todo deleted successfully"}), 200
+
+    return jsonify({"error": "Todo not found"}), 404
+        
+
+@app.route("/todos/<int:id>")
 def get_todo_by_id(id):
     print(type(id))
     for todo in todos:
-        if todo["id"] == int(id):
+        if todo["id"] == id:
             return jsonify(todo)
         
     return jsonify({"error": "Todo not found"}), 404
