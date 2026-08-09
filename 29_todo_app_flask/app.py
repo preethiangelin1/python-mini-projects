@@ -1,6 +1,9 @@
 from flask import Flask, jsonify, request
+from models import init_db, insert_todo, get_todos
 
 app = Flask(__name__)
+
+init_db()
 
 todos = [
     {"id": 1, "title": "buy food", "completed": False },
@@ -9,7 +12,16 @@ todos = [
 
 @app.route("/todos")
 def get_all_todos():
-    return todos
+    rows = get_todos()
+
+    return jsonify([
+        {
+            "id": row[0],
+            "title": row[1],
+            "completed": False if row[2] == 0 else True
+        }
+        for row in rows
+    ])
 
 
 @app.route("/todos", methods=["POST"])
@@ -19,15 +31,12 @@ def create_todo():
     if not data or "title" not in data:
         return jsonify({"error": "Title is required"}), 400
 
-    new_todo = {
-        "id": len(todos) + 1,   # simple ID generation
-        "title": data["title"],
-        "completed": False
-    }
+    todo_id = insert_todo(data["title"])
 
-    todos.append(new_todo)
-
-    return jsonify(new_todo), 201
+    return jsonify({
+        "id": todo_id,
+        "title": data["title"]
+    }), 201
 
 @app.route("/todos/<int:id>", methods=["DELETE"])
 def delete_todo(id):
