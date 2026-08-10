@@ -39,3 +39,31 @@ def delete_todo_by_id(id):
             return False
 
     return True
+
+def update_todo_by_id(id, data):
+    fields = []
+    values = []
+
+    if "title" in data:
+        fields.append("title = ?")
+        values.append(data["title"])
+
+    if "completed" in data:
+        fields.append("completed = ?")
+        values.append(data["completed"])
+
+    if not fields:
+        return False
+
+    values.append(id)
+
+    query = f"""
+        UPDATE todos
+        SET {", ".join(fields)}
+        WHERE id = ?
+    """
+
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.execute(query, values)
+
+        return cursor.rowcount > 0
