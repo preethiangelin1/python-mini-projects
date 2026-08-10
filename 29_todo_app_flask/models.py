@@ -27,3 +27,15 @@ def get_todos():
     with sqlite3.connect(DB_NAME) as conn:
         cur = conn.execute('SELECT id, title, completed FROM todos')
         return cur.fetchall()
+
+def delete_todo_by_id(id):
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.execute(
+            'DELETE FROM todos WHERE id = ?',
+            (id,)
+        )
+
+        if cursor.rowcount == 0:
+            return False
+
+    return True

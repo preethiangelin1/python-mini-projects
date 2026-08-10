@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from models import init_db, insert_todo, get_todos
+from models import init_db, insert_todo, get_todos, delete_todo_by_id
 
 app = Flask(__name__)
 
@@ -40,12 +40,12 @@ def create_todo():
 
 @app.route("/todos/<int:id>", methods=["DELETE"])
 def delete_todo(id):
-    for todo in todos:
-        if todo["id"] == id:
-            todos.remove(todo)
-            return jsonify({"message": "Todo deleted successfully"}), 200
+    deleted = delete_todo_by_id(id)
 
-    return jsonify({"error": "Todo not found"}), 404
+    if not deleted:
+        return {"error": "Todo not found"}, 404
+
+    return {"message": "Todo deleted successfully"}, 200
 
 @app.route("/todos/<int:id>", methods=["PUT"])
 def update_todo(id):
