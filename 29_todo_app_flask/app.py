@@ -1,7 +1,9 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from models import get_todo, init_db, insert_todo, get_todos, delete_todo_by_id, update_todo_by_id
 
 app = Flask(__name__)
+CORS(app)
 
 init_db()
 
