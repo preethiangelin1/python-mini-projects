@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DailyDo - Todo App</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- Header -->
+        <header class="header">
+            <h1>DailyDo</h1>
+            <p>Capture your thoughts, one task at a time.</p>
+        </header>
+
+
+        <main class="content">
+
+            <!-- Add Todo -->
+            <form id="todo-form" class="add-form">
+
+                <input
+                    type="text"
+                    id="title"
+                    placeholder="What's on your mind today?"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit">
+                    Add <span>+</span>
+                </button>
+
+            </form>
+
+
+            <!-- Filters + Counters -->
+            <section class="toolbar">
+
+                <div class="filters">
+
+                    <button class="filter active" data-filter="all">
+                        📋 <span>All</span>
+                    </button>
+
+                    <button class="filter" data-filter="pending">
+                        ⏳ <span>Pending</span>
+                    </button>
+
+                    <button class="filter" data-filter="completed">
+                        ✅ <span>Completed</span>
+                    </button>
+
+                </div>
+
+
+                <div class="counters">
+
+                    <div class="counter">
+                        <span>Pending</span>
+                        <strong id="pending-count">0</strong>
+                    </div>
+
+                    <div class="counter completed-counter">
+                        <span>Completed</span>
+                        <strong id="completed-count">0</strong>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Todo List -->
+            <section id="todo-list" class="todo-list">
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
