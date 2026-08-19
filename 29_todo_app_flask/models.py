@@ -27,6 +27,19 @@ def get_todos():
     with sqlite3.connect(DB_NAME) as conn:
         cur = conn.execute('SELECT id, title, completed FROM todos')
         return cur.fetchall()
+    
+def get_todos_by_status(completed):
+    with sqlite3.connect(DB_NAME) as conn:
+        cur = conn.execute(
+            """
+            SELECT id, title, completed
+            FROM todos
+            WHERE completed = ?
+            """,
+            (1 if completed else 0,)
+        )
+
+        return cur.fetchall()
 
 def get_todo(id):
     with sqlite3.connect(DB_NAME) as conn:
