@@ -12,26 +12,37 @@ const filters = document.querySelectorAll(".filter");
 let todos = [];
 let currentFilter = "all";
 
-console.log("--LOADED--")
-
 
 // =========================
 // GET TODOS
 // =========================
 
-async function getTodos() {
+async function getTodos(filter = "all") {
 
     try {
 
-        const response = await fetch(API_URL);
+        let url = API_URL;
+
+        // Add query parameter when filtering
+        if (filter === "pending") {
+            url = `${API_URL}?completed=false`;
+        }
+
+        if (filter === "completed") {
+            url = `${API_URL}?completed=true`;
+        }
+
+
+        const response = await fetch(url);
 
         if (!response.ok) {
             throw new Error("Failed to fetch todos");
         }
 
+
         todos = await response.json();
 
-        updateCounters();
+
         displayTodos();
 
     } catch (error) {
@@ -41,7 +52,9 @@ async function getTodos() {
         todoList.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">⚠️</div>
+
                 <h2>Unable to load todos</h2>
+
                 <p>Make sure your Flask server is running.</p>
             </div>
         `;
@@ -55,18 +68,7 @@ async function getTodos() {
 
 function displayTodos() {
 
-    let filteredTodos = todos;
-
-    if (currentFilter === "pending") {
-        filteredTodos = todos.filter(todo => !todo.completed);
-    }
-
-    if (currentFilter === "completed") {
-        filteredTodos = todos.filter(todo => todo.completed);
-    }
-
-
-    if (filteredTodos.length === 0) {
+    if (todos.length === 0) {
 
         todoList.innerHTML = `
             <div class="empty-state">
@@ -84,11 +86,13 @@ function displayTodos() {
 
     todoList.innerHTML = "";
 
-    filteredTodos.forEach(todo => {
+
+    todos.forEach(todo => {
 
         const card = document.createElement("div");
 
         card.className = "todo-card";
+
 
         card.innerHTML = `
             <input
@@ -182,9 +186,11 @@ form.addEventListener("submit", async (event) => {
 
         titleInput.value = "";
 
-        await getTodos();
+        // Refresh current filter
+        await getTodos(currentFilter);
 
     } catch (error) {
+
         console.error(error);
     }
 });
@@ -198,7 +204,7 @@ async function toggleTodo(id, completed) {
 
     try {
 
-        await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(`${API_URL}/${id}`, {
 
             method: "PUT",
 
@@ -211,9 +217,17 @@ async function toggleTodo(id, completed) {
             })
         });
 
-        await getTodos();
+
+        if (!response.ok) {
+            throw new Error("Failed to update todo");
+        }
+
+
+        // Refresh current filter
+        await getTodos(currentFilter);
 
     } catch (error) {
+
         console.error(error);
     }
 }
@@ -241,7 +255,7 @@ async function editTodo(id, currentTitle) {
 
     try {
 
-        await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(`${API_URL}/${id}`, {
 
             method: "PUT",
 
@@ -254,9 +268,17 @@ async function editTodo(id, currentTitle) {
             })
         });
 
-        await getTodos();
+
+        if (!response.ok) {
+            throw new Error("Failed to update todo");
+        }
+
+
+        // Refresh current filter
+        await getTodos(currentFilter);
 
     } catch (error) {
+
         console.error(error);
     }
 }
@@ -272,6 +294,7 @@ async function deleteTodo(id) {
         "Are you sure you want to delete this task?"
     );
 
+
     if (!confirmed) {
         return;
     }
@@ -279,13 +302,21 @@ async function deleteTodo(id) {
 
     try {
 
-        await fetch(`${API_URL}/${id}`, {
+        const response = await fetch(`${API_URL}/${id}`, {
             method: "DELETE"
         });
 
-        await getTodos();
+
+        if (!response.ok) {
+            throw new Error("Failed to delete todo");
+        }
+
+
+        // Refresh current filter
+        await getTodos(currentFilter);
 
     } catch (error) {
+
         console.error(error);
     }
 }
@@ -299,15 +330,22 @@ filters.forEach(button => {
 
     button.addEventListener("click", () => {
 
+        // Remove active state
         filters.forEach(btn => {
             btn.classList.remove("active");
         });
 
+
+        // Add active state
         button.classList.add("active");
 
+
+        // Get selected filter
         currentFilter = button.dataset.filter;
 
-        displayTodos();
+
+        // Ask backend for filtered data
+        getTodos(currentFilter);
     });
 });
 
@@ -316,20 +354,31 @@ filters.forEach(button => {
 // COUNTERS
 // =========================
 
-function updateCounters() {
+async function updateCounters() {
 
-    const pending = todos.filter(
-        todo => !todo.completed
-    ).length;
+    try {
 
-    const completed = todos.filter(
-        todo => todo.completed
-    ).length;
+        const [pendingResponse, completedResponse] = await Promise.all([
+
+            fetch(`${API_URL}?completed=false`),
+
+            fetch(`${API_URL}?completed=true`)
+
+        ]);
 
 
-    pendingCount.textContent = pending;
+        const pendingTodos = await pendingResponse.json();
+        const completedTodos = await completedResponse.json();
 
-    completedCount.textContent = completed;
+
+        pendingCount.textContent = pendingTodos.length;
+
+        completedCount.textContent = completedTodos.length;
+
+    } catch (error) {
+
+        console.error(error);
+    }
 }
 
 
@@ -352,3 +401,5 @@ function escapeHtml(text) {
 // =========================
 
 getTodos();
+
+updateCounters();
