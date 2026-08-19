@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-from models import get_todo, init_db, insert_todo, get_todos, delete_todo_by_id, update_todo_by_id
+from models import get_todo, init_db, insert_todo, get_todos, delete_todo_by_id, update_todo_by_id, get_todos_by_status
 
 app = Flask(__name__)
 CORS(app)
@@ -14,7 +14,18 @@ todos = [
 
 @app.route("/todos")
 def get_all_todos():
-    rows = get_todos()
+    completed = request.args.get("completed")
+
+    if completed is None:
+        rows = get_todos()
+
+    elif completed == "true":
+        rows = get_todos_by_status(True)
+
+    elif completed == "false":
+        rows = get_todos_by_status(False)
+    else:
+        rows = get_todos()
 
     return jsonify([
         {
