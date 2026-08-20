@@ -205,3 +205,5 @@ This project is part of my Python learning journey, with a focus on moving from 
 ---
 
 Built while learning Python backend development 🚀
+
+> **Frontend note:** The frontend UI was generated using Codex. The main focus of this project was learning and implementing the backend API, database operations, CRUD functionality, and server-side filtering with Flask.
